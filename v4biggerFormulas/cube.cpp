@@ -82,7 +82,7 @@ void Cube::Renderer() {
 
     vector<vector<float>> pM = {
         vector<float>{aF, 0, 0, 0},
-        vector<float>{0, 0, 0, 0},
+        vector<float>{0, F, 0, 0},
         vector<float>{0, 0, q, 1},
         vector<float>{0, 0, -Znq, 0} };
 
