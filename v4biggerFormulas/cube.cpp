@@ -5,6 +5,8 @@ Cube::Cube() {
 }
 
 void Cube::Update() {
+    Renderer();
+
     th += 0.01;
     vector<Vector3> mRx = {
         Vector3{1, 0, 0},
@@ -20,7 +22,7 @@ void Cube::Update() {
         Vector3{cos(th), sin(th), 0},
         Vector3{-sin(th), cos(th), 0},
         Vector3{0, 0, 1} };
-    
+
     for (int i = 0; i < matrixA.size(); i++) {
         Vector3 p = matrixA[i];
         float RxPx = p.x * mRx[0].x + p.y * mRx[1].x + p.z * mRx[2].x;
@@ -70,7 +72,7 @@ void Cube::Connect(int i, int j) {
 
 void Cube::Renderer() {
     float fov = PI / 2;
-    float zNear = 1;
+    float zNear = 0.1;
     float zFar = 1000;
 
     float a = st.scrWid / st.scrHei;
@@ -93,8 +95,20 @@ void Cube::Renderer() {
         float Pz = p[0] * pM[0][2] + p[1] * pM[1][2] + p[2] * pM[2][2] + p[3] * pM[3][2];
         float Pt = p[0] * pM[0][3] + p[1] * pM[1][3] + p[2] * pM[2][3] + p[3] * pM[3][3];
 
-        Px /= Pt; Py /= Pt; Pz /= Pt;
+        if (Pt != 0) {
+            Px /= Pt; Py /= Pt; Pz /= Pt;
+        }
 
-        DrawCircle(Px, Py, pt.radius, WHITE);
+        matrixB[0][2] += 3; matrixB[1][2] += 3; matrixB[2][2] += 3;
+
+        matrixB[0][0] += 1; matrixB[0][1] += 1;
+        matrixB[1][0] += 1; matrixB[1][1] += 1;
+        matrixB[2][0] += 1; matrixB[2][1] += 1;
+
+        matrixB[0][0] *= st.scrWid / 2; matrixB[0][1] *= st.scrHei / 2;
+        matrixB[1][0] *= st.scrWid / 2; matrixB[1][1] *= st.scrHei / 2;
+        matrixB[2][0] *= st.scrWid / 2; matrixB[2][1] *= st.scrHei / 2;
+
+        DrawCircle(Px, Py, pt.radius, BLACK);
     }
 }
