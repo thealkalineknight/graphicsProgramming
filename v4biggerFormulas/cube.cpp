@@ -56,7 +56,9 @@ void Cube::Update() {
             Px /= Pt; Py /= Pt; Pz /= Pt;
         }
 
-        // Pz?
+        Px = Px / -Pz;
+        Py = Py / -Pz; 
+        // ?? z divide already considered in Proj matrix, but Pz without these lines is unused, bu there is no effect with or without???
 
         Px = (Px * st.scale + st.scrWid / 2);
         Py = (Py * st.scale + st.scrHei / 2);
