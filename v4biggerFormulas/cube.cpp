@@ -56,6 +56,8 @@ void Cube::Update() {
             Px /= Pt; Py /= Pt; Pz /= Pt;
         }
 
+        // Pz?
+
         Px = (Px * st.scale + st.scrWid / 2);
         Py = (Py * st.scale + st.scrHei / 2);
 
