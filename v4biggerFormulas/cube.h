@@ -12,10 +12,10 @@ public:
     void ConnectLine();
     void Connect(int i, int j);
 
-    float maxDist = 3;
-    float th = 0;
-
 private:
+
+    float th = 0;
+    float maxDist = 3;
 
     float fov = PI / 2;
     float zNear = 0.1;
