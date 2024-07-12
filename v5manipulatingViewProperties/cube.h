@@ -1,13 +1,11 @@
 #pragma once
 #include "point.h"
-#include "player.h"
 
 class Cube
 {
 public:
     Settings st;
     Point pt;
-    Player pl;
 
     Cube();
     void Update();
@@ -16,10 +14,6 @@ public:
     void Connect(int i, int j);
 
 private:
-
-    int dir = 0;
-
-    // ---
 
     float th = 0;
     float maxDist = 3;
@@ -63,9 +57,5 @@ private:
         Vector3{0, 0, 0},
         Vector3{0, 0, 0} };
 
-    float RxPx, RxPy, RxPz, RxPt,
-        RyPx, RyPy, RyPz, RyPt,
-        RzPx, RzPy, RzPz, RzPt;
-    
-    float Rx, Ry, Rz, Rt;
+    float thX, thY, thZ;
 };
