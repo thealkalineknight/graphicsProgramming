@@ -1,5 +1,5 @@
 Goals:
-1. try diff th angles for each rot matrix to eliminate jumpy animation
+1. done
 2. mess with fov
 3. translate cube
 4. scale cube
