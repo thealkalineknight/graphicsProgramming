@@ -1,0 +1,35 @@
+#pragma once
+#include "settings.h"
+
+class Donut
+{
+public:
+    Settings st;
+
+    Donut();
+    void Update();
+    void MatMult(float mx, float my, float mz, vector<vector<float>> mat, float* outX, float* outY, float* outZ);
+    // void Draw();
+
+    const int cirR = 1; // donut cross circ radius Z
+    const int midR = 2; // donut radius
+    const int TorCamDist = 5; // distance from donut to camera
+    const int torR = cirR + midR; // custom var
+
+    const float thspc = 0.07;
+    const float phspc = 0.02;
+
+    float RyPx, RyPy, RyPz;
+    float* Prypx = &RyPx; float* Prypy = &RyPy; float* Prypz = &RyPz;
+
+    float al = 0; float be = 0;
+
+    float RxPx, RxPy, RxPz;
+    float* Prxpx = &RxPx; float* Prxpy = &RxPy; float* Prxpz = &RxPz;
+
+    float RzPx, RzPy, RzPz;
+    float* Przpx = &RzPx; float* Przpy = &RzPy; float* Przpz = &RzPz;
+
+    // old
+    float dist = 3;
+};
