@@ -39,19 +39,19 @@ void Donut::Update() {
                 {cPh, 0, -sPh},
                 {0, 1, 0},
                 {sPh, 0, cPh} };
-            MatMult(crX, crY, dist, mRy, Prypx, Prypy, Prypz);
+            MatMult(crX, crY, dist, mRy, RyPx, RyPy, RyPz);
             
             float mRx[3][3] = {
                 {1, 0, 0},
                 {0, cAl, sAl},
                 {0, -sAl, cAl} };
-            MatMult(RyPx, RyPy, RyPz, mRx, Prxpx, Prxpy, Prxpz);
+            MatMult(RyPx, RyPy, RyPz, mRx, RxPx, RxPy, RxPz);
 
             float mRz[3][3] = {
                 {cBe, sBe, 0},
                 {-sBe, cBe, 0},
                 {0, 0, 1} };
-            MatMult(RxPx, RxPy, RxPz, mRz, Przpx, Przpy, Przpz);
+            MatMult(RxPx, RxPy, RxPz, mRz, RzPx, RzPy, RzPz);
 
             float z = 1 / (TorCamDist - RzPz);  // oldDist - z
 
@@ -71,10 +71,10 @@ void Donut::Update() {
     }
 }
 
-void Donut::MatMult(float mx, float my, float mz, float mat[3][3], float* outX, float* outY, float* outZ) {
-    *outX = mx * mat[0][0] + my * mat[1][0] + mz * mat[2][0];
-    *outY = mx * mat[0][1] + my * mat[1][1] + mz * mat[2][1];
-    *outZ = mx * mat[0][2] + my * mat[1][2] + mz * mat[2][2];
+void Donut::MatMult(float mx, float my, float mz, float mat[3][3], float& outX, float& outY, float& outZ) {
+    outX = mx * mat[0][0] + my * mat[1][0] + mz * mat[2][0];
+    outY = mx * mat[0][1] + my * mat[1][1] + mz * mat[2][1];
+    outZ = mx * mat[0][2] + my * mat[1][2] + mz * mat[2][2];
 }
 
 /*

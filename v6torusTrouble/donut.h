@@ -23,15 +23,12 @@ private:
     const float phspc = 0.02;
 
     float RyPx, RyPy, RyPz;
-    float* Prypx = &RyPx; float* Prypy = &RyPy; float* Prypz = &RyPz;
 
     float al = 0; float be = 0;
 
     float RxPx, RxPy, RxPz;
-    float* Prxpx = &RxPx; float* Prxpy = &RxPy; float* Prxpz = &RxPz;
 
     float RzPx, RzPy, RzPz;
-    float* Przpx = &RzPx; float* Przpy = &RzPy; float* Przpz = &RzPz;
 
     // old
     float dist = 3;
@@ -45,6 +42,6 @@ public:
 
     void calcTrig();
 
-    void MatMult(float mx, float my, float mz, float mat[3][3], float* outX, float* outY, float* outZ);
+    void MatMult(float mx, float my, float mz, float mat[3][3], float& outX, float& outY, float& outZ);
     // void Draw();
 };
