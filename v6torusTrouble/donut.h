@@ -3,13 +3,16 @@
 
 class Donut
 {
-public:
-    Settings st;
+private:
+    vector<float> cosThValues;
+    vector<float> sinThValues;
+    vector<float> cosPhValues;
+    vector<float> sinPhValues;
 
-    Donut();
-    void Update();
-    void MatMult(float mx, float my, float mz, vector<vector<float>> mat, float* outX, float* outY, float* outZ);
-    // void Draw();
+    float cAl;
+    float sAl;
+    float cBe;
+    float sBe;
 
     const int cirR = 1; // donut cross circ radius Z
     const int midR = 2; // donut radius
@@ -32,4 +35,16 @@ public:
 
     // old
     float dist = 3;
+
+public:
+    Settings st;
+
+    Donut();
+
+    void Update();
+
+    void calcTrig();
+
+    void MatMult(float mx, float my, float mz, float mat[3][3], float* outX, float* outY, float* outZ);
+    // void Draw();
 };

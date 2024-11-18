@@ -1,59 +1,77 @@
 #include "donut.h"
 
 Donut::Donut() {
+    calcTrig();
+}
+
+void Donut::calcTrig() {
+    for (float th = 0; th < 2 * PI; th += thspc) {
+        cosThValues.push_back(cos(th));
+        sinThValues.push_back(sin(th));
+    }
+    for (float ph = 0; ph < 2 * PI; ph += phspc) {
+        cosPhValues.push_back(cos(ph));
+        sinPhValues.push_back(sin(ph));
+    }
 }
 
 void Donut::Update() {
 
-    al += 0.4; // *st.delta;
-    be += 0.2; // *st.delta;
+    al += 0.04; // *st.delta;
+    be += 0.02; // *st.delta;
 
-    for (float th = 0; th < 2 * PI; th += thspc) {
-        float cTh = cos(th), sTh = sin(th);
+    cAl = cos(al);
+    sAl = sin(al);
+    cBe = cos(be);
+    sBe = sin(be);
 
-        for (float ph = 0; ph < 2 * PI; ph += phspc) {
-            float cPh = cos(ph), sPh = sin(ph);
+    for (size_t i = 0; i < cosThValues.size(); ++i) {
+        float cTh = cosThValues[i], sTh = sinThValues[i];
 
-            float crX = midR + cirR * cTh;
-            float crY = cirR * sTh;
+        float crX = midR + cirR * cTh;
+        float crY = cirR * sTh;
 
-            vector<vector<float>> mRy = {
-                vector<float>{cos(ph), 0, -sin(ph)},
-                vector<float>{0, 1, 0},
-                vector<float>{sin(ph), 0, cos(ph)} };
+        for (size_t j = 0; j < cosPhValues.size(); ++j) {
+            float cPh = cosPhValues[j];
+            float sPh = sinPhValues[j];
+
+            float mRy[3][3] = {
+                {cPh, 0, -sPh},
+                {0, 1, 0},
+                {sPh, 0, cPh} };
             MatMult(crX, crY, dist, mRy, Prypx, Prypy, Prypz);
             
-            vector<vector<float>> mRx = {
-                vector<float>{1, 0, 0},
-                vector<float>{0, cos(al), sin(al)},
-                vector<float>{0, -sin(al), cos(al)} };
+            float mRx[3][3] = {
+                {1, 0, 0},
+                {0, cAl, sAl},
+                {0, -sAl, cAl} };
             MatMult(RyPx, RyPy, RyPz, mRx, Prxpx, Prxpy, Prxpz);
 
-            vector<vector<float>> mRz = {
-                vector<float>{cos(be), sin(be), 0},
-                vector<float>{-sin(be), cos(be), 0},
-                vector<float>{0, 0, 1} };
+            float mRz[3][3] = {
+                {cBe, sBe, 0},
+                {-sBe, cBe, 0},
+                {0, 0, 1} };
             MatMult(RxPx, RxPy, RxPz, mRz, Przpx, Przpy, Przpz);
 
             float z = 1 / (TorCamDist - RzPz);  // oldDist - z
 
-            vector<Vector3> pjM = {
-                Vector3{z, 0, 0},
-                Vector3{0, z, 0}
+            float pjM[2][3] = {
+                {z, 0, 0},
+                {0, z, 0}
             };
 
-            float pX = RzPx * pjM[0].x + RzPy * pjM[1].x;
-            float pY = RzPx * pjM[0].y + RzPy * pjM[1].y;
+            float pX = RzPx * pjM[0][0] + RzPy * pjM[1][0];
+            float pY = RzPx * pjM[0][1] + RzPy * pjM[1][1];
 
-            pX = int(pX * st.scale + st.scrWid / 2);
-            pY = int(pY * st.scale + st.scrHei / 2);
+            pX = int(pX * st.scale + st.scrWid / 2.0);
+            pY = int(pY * st.scale + st.scrHei / 2.0);
 
             DrawCircle(pX, pY, 5, WHITE);
         }
     }
 }
 
-void Donut::MatMult(float mx, float my, float mz, vector<vector<float>> mat, float* outX, float* outY, float* outZ) {
+void Donut::MatMult(float mx, float my, float mz, float mat[3][3], float* outX, float* outY, float* outZ) {
     *outX = mx * mat[0][0] + my * mat[1][0] + mz * mat[2][0];
     *outY = mx * mat[0][1] + my * mat[1][1] + mz * mat[2][1];
     *outZ = mx * mat[0][2] + my * mat[1][2] + mz * mat[2][2];
